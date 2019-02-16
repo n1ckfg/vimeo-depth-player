@@ -105,7 +105,7 @@ export default class DepthPlayer extends EventEmitter {
     this.props;
 
     if (!DepthPlayer.geo) {
-      DepthPlayer.buildGeometry();
+      DepthPlayer.buildGeometry(true);
     }
     
     this.material = new THREE.ShaderMaterial({
@@ -324,30 +324,32 @@ export default class DepthPlayer extends EventEmitter {
     );
   }
 
-  static buildGeometry() {
-
-    DepthPlayer.geo = new THREE.Geometry();
-
-    for (let y = 0; y < VERTS_TALL; y++) {
-      for (let x = 0; x < VERTS_WIDE; x++) {
-        DepthPlayer.geo.vertices.push(new THREE.Vector3(x, y, 0));
+  static buildGeometry(eqr) {
+    if (eqr) {
+      DepthPlayer.geo = new THREE.SphereGeometry(5, VERTS_WIDE, VERTS_TALL);
+    } else {
+      DepthPlayer.geo = new THREE.Geometry();
+      for (let y = 0; y < VERTS_TALL; y++) {
+        for (let x = 0; x < VERTS_WIDE; x++) {
+          DepthPlayer.geo.vertices.push(new THREE.Vector3(x, y, 0));
+        }
       }
-    }
-    for (let y = 0; y < VERTS_TALL - 1; y++) {
-      for (let x = 0; x < VERTS_WIDE - 1; x++) {
-        DepthPlayer.geo.faces.push(
-          new THREE.Face3(
-            x + y * VERTS_WIDE,
-            x + (y + 1) * VERTS_WIDE,
-            (x + 1) + y * (VERTS_WIDE)
-        ));
-        
-        DepthPlayer.geo.faces.push(
-          new THREE.Face3(
-            x + 1 + y * VERTS_WIDE,
-            x + (y + 1) * VERTS_WIDE,
-            (x + 1) + (y + 1) * (VERTS_WIDE)
-        ));
+      for (let y = 0; y < VERTS_TALL - 1; y++) {
+        for (let x = 0; x < VERTS_WIDE - 1; x++) {
+          DepthPlayer.geo.faces.push(
+            new THREE.Face3(
+              x + y * VERTS_WIDE,
+              x + (y + 1) * VERTS_WIDE,
+              (x + 1) + y * (VERTS_WIDE)
+          ));
+          
+          DepthPlayer.geo.faces.push(
+            new THREE.Face3(
+              x + 1 + y * VERTS_WIDE,
+              x + (y + 1) * VERTS_WIDE,
+              (x + 1) + (y + 1) * (VERTS_WIDE)
+          ));
+        }
       }
     }
   }
