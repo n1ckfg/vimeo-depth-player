@@ -12,7 +12,7 @@ const EventEmitter = require('event-emitter-es6');
  * TODO add documentation
  */
 
-// For building the geomtery
+// For building the geometry
 const VERTS_WIDE = 256;
 const VERTS_TALL = 256;
 
@@ -105,7 +105,7 @@ export default class DepthPlayer extends EventEmitter {
     this.props;
 
     if (!DepthPlayer.geo) {
-      DepthPlayer.buildGeomtery();
+      DepthPlayer.buildGeometry();
     }
     
     this.material = new THREE.ShaderMaterial({
@@ -324,7 +324,7 @@ export default class DepthPlayer extends EventEmitter {
     );
   }
 
-  static buildGeomtery() {
+  static buildGeometry() {
 
     DepthPlayer.geo = new THREE.Geometry();
 
